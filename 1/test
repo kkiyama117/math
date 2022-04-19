@@ -1,0 +1,10 @@
+
+    program test
+
+
+        implicit none
+        
+         implicit None
+         write (*, *) 'test'
+         stop
+    end program test
