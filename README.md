@@ -1,2 +1,14 @@
 # math
-test
+
+課題用
+
+## 環境
+
+- gfortran(fortran90),cmakeを利用
+- python3の簡易なスクリプトでビルド
+
+## build (and run)
+
+```shellscript
+  python build.py
+```
