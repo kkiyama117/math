@@ -4,22 +4,32 @@ cmake_minimum_required (VERSION 3.0)
 project (Math)
 enable_language (Fortran)
 
-# make sure that the default is a RELEASE
-if (NOT CMAKE_BUILD_TYPE)
-    set (CMAKE_BUILD_TYPE RELEASE CACHE STRING
-            "Choose the type of build, options are: None Debug Release."
-            FORCE)
-endif (NOT CMAKE_BUILD_TYPE)
+# Check if not running in source dir
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    message(FATAL_ERROR "DO NOT BUILD in-tree.")
+endif()
+
+get_filename_component (Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
+
+## folder
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
+
+file(GLOB FORTRAN_FILES *.f90)
+
+set (PROGRAMS ${FORTRAN_FILES})
 
 # build executables
-set (PROGRAMS "test1")
-set (EXECUTABLES ${PROGRAMS})
-#set (SCRIPTS "gen_pert.sh" "pert_multi_mode.sh")
-
 foreach (p ${PROGRAMS})
-    add_executable (${p} "${p}.f90")
+    get_filename_component(title "${p}" NAME_WE) # title
+    get_filename_component(relativePath "${p}" NAME) # title
+    message("building ${relativePath}")
+    add_executable (${title} "${relativePath}")
+#    set(EXECUTABLES "${EXECUTABLES} ${title}")
 endforeach (p)
 
 # install executables and scripts
 install (TARGETS ${EXECUTABLES}
         RUNTIME DESTINATION "bin")
+install (PROGRAMS ${SCRIPTS}
+        DESTINATION "bin")

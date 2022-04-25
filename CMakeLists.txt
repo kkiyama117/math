@@ -4,6 +4,12 @@ cmake_minimum_required (VERSION 3.0)
 project (Math)
 enable_language (Fortran)
 
+## output
+#set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
+
 # make sure that the default is a RELEASE
 if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE RELEASE CACHE STRING
@@ -12,7 +18,8 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # default installation
-get_filename_component (default_prefix ".." ABSOLUTE)
+# Same as #get_filename_component (default_prefix ".." ABSOLUTE)
+set(default_prefix ${CMAKE_CURRENT_LIST_DIR})
 set (CMAKE_INSTALL_PREFIX ${default_prefix} CACHE STRING
         "Choose the installation directory; by default it installs in the base directory."
         FORCE)
@@ -40,22 +47,21 @@ else (Fortran_COMPILER_NAME MATCHES "gfortran.*")
     set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g")
 endif (Fortran_COMPILER_NAME MATCHES "gfortran.*")
 
+## folder
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
+
 # Add sub dir
 add_subdirectory(src)
 #target_link_libraries(${PROJECT_NAME} src)
-file(GLOB FORTRAN_FILES src/*.f90)
 
 # build executables
-set (PROGRAMS "main")
-set (EXECUTABLES ${PROGRAMS})
+#set (PROGRAMS ${FORTRAN_FILES})
+#set (EXECUTABLES ${PROGRAMS})
 #set (SCRIPTS "gen_pert.sh" "pert_multi_mode.sh")
 
-foreach (p ${PROGRAMS})
-    add_executable (${p} "${p}.f90")
-endforeach (p)
-
 # install executables and scripts
-install (TARGETS ${EXECUTABLES}
-        RUNTIME DESTINATION "bin")
-install (PROGRAMS ${SCRIPTS}
-        DESTINATION "bin")
+#install (TARGETS ${EXECUTABLES}
+#        RUNTIME DESTINATION "bin")
+#install (PROGRAMS ${SCRIPTS}
+#        DESTINATION "bin")
