@@ -1,5 +1,5 @@
 program test1
     implicit None
-    write (*, *) 'test'
+    write (*, *) 'See `./build/bin/` directory'
     stop
 end program test1
