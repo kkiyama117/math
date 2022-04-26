@@ -1,4 +1,4 @@
-program test
+program sample2_3
     implicit None
     real :: A, B, WA, SA, SEKI, SHOU
 
@@ -13,4 +13,4 @@ program test
     write (*, *) 'A*B=', SEKI
     write (*, *) 'A/B=', SHOU
     stop
-end program test
+end program sample2_3
