@@ -12,3 +12,7 @@
 ```shellscript
   python build.py
 ```
+
+## 各コード
+
+`src` folderの中の各ファイルを見てください
