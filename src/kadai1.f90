@@ -1,4 +1,5 @@
 ! Created by kiyama on 4/26/22.
+! See https://github.com/kkiyama117/math
 
 program kadai1
     ! Initialize variables
