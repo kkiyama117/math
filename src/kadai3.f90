@@ -1,8 +1,9 @@
-program test1
-    implicit None
+! Created by kiyama on 5/10/22.
+
+program kadai3
+    implicit none
     ! function
     ! tmp
     ! run
     write (*, *) 'See `./build/bin/` directory to get binary'
-    stop
-end program test1
+end program kadai3
