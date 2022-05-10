@@ -21,4 +21,5 @@ program sample4_1
     end do
     !write (*, *) (A(I), I = 1, 10)
     write (*, '(1x,11I5)') (A(I), I = 1, 10)
+    !write (*, '(1x,3I5)') (A(I), I = 1, 10)
 end program sample4_1
