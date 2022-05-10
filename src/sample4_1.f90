@@ -18,6 +18,6 @@ program sample4_1
             k = A(i - 2)
             A(i) = j + k
         end if
-        write (*, '(1x,11I5)') A(i)
     end do
+    write (*, '(1x,11I5)') (A(I), I = 1, 10)
 end program sample4_1
