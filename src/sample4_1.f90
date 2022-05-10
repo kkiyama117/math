@@ -19,5 +19,6 @@ program sample4_1
             A(i) = j + k
         end if
     end do
-    write (*, '(1x,11I5)') (A(I), I = 1, 10)
+    write (*, *) (A(I), I = 1, 10)
+    !write (*, '(1x,11I5)') (A(I), I = 1, 10)
 end program sample4_1
