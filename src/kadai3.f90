@@ -4,15 +4,18 @@ module m_sort
     implicit none
 contains
     recursive function qsort(a) result(result)
+        ! tmp
         real, allocatable :: result(:)
         real, intent(in) :: a(:)
         real :: k
+        ! run
         if (size(a) <= 1) then
             result = a
         else
             k = a(size(a) / 2)
             result = [qsort(pack(a, a < k)), pack(a, a == k), qsort(pack(a, a > k))]
         end if
+        ! ここでA(0)を抜き出すとminが出せる(割愛)
     end function qsort
 end module m_sort
 
@@ -21,11 +24,18 @@ module m_hensa
     implicit none
 contains
     pure function hensa(a, b) result(result)
-        real, allocatable :: r(:)
         real :: result
+        !配列
         real, intent(in) :: a(:)
+        !平均
         real, intent(in) :: b
         real :: k
+        integer :: i
+        ! run
+        do i = 1, size(a)
+            k = k + (a(i) - b)**2
+        end do
+        result = sqrt(k / size(a))
 
     end function hensa
 end module m_hensa
@@ -48,7 +58,7 @@ program kadai3
     print '(A,f6.2)', '平均値:', ave
     !do-loopで回すと手計算できるがquicksortとやることが変わらず,qsort(a)[0]を取り出すだけなので割愛.
     print '(A,f6.2)', '最小値:', minval(A)
-    print '(A,f6.2)', '標準偏差:', hensa(A,ave)
+    print '(A,f6.2)', '標準偏差:', hensa(A, ave)
 
     RESULT = qsort(a)
     !write (*, '(f5.2)') A
