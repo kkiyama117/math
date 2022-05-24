@@ -1,5 +1,6 @@
 import subprocess
 
+import itertools
 import os.path
 import time
 
@@ -37,12 +38,11 @@ if __name__ == "__main__":
             f.write('------------------------------\n')
             f.write('出力(pythonで取得)\n')
             f.write('------------------------------\n')
-            while not os.path.exists(run_out_file):
-                time.sleep(2)
+            time.sleep(1)
             with open(run_out_file, 'r') as f2:
                 for li in f2.readlines():
                     f.write(li)
-            f.write('------------------------------\n')
+            f.write('\n------------------------------\n')
     else:
         raise ValueError("%s isn't a file!" % run_out_file)
     print("end")
