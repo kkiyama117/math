@@ -7,10 +7,15 @@ import time
 if __name__ == "__main__":
     folderPath = "build"
     run_out_file = 'results/kadai_run.txt'
+    output_file = 'results/kadai.txt'
+    source_file = 'src/kadai3.f90'
+    run_file = './build/bin/kadai3'
+
     # subprocess.call(['./build.zsh'])
     print("remove old files")
     subprocess.call(['rm', '-rf', folderPath])
-    subprocess.call(['rm', '-rf', run_out_file])
+    subprocess.call(['rm', '-f', run_out_file])
+    subprocess.call(['rm', '-f', output_file])
     while os.path.exists(folderPath):
         time.sleep(1)
     print("building...")
@@ -20,9 +25,6 @@ if __name__ == "__main__":
     print("running...")
     subprocess.call(['./bin/main'], cwd=folderPath)
 
-    output_file = 'results/kadai.txt'
-    source_file = 'src/kadai3.f90'
-    run_file = './build/bin/kadai3'
     while not os.path.exists(run_file):
         time.sleep(1)
     with open(run_out_file, 'w') as f:

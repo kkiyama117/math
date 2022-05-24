@@ -51,7 +51,7 @@ program kadai3
             1.63, -2.85, 7.89, -5.96, 8.23, 8.76, 2.97, 4.57, 5.21, 9.43, &
             3.12, 6.52, -1.58], RESULT
     integer :: i
-    real :: ave, s
+    real :: ave
     ! run
     ave = sum(A) / size(A)
     print '(A,f6.2)', '平均値:', ave
