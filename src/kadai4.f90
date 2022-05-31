@@ -80,9 +80,18 @@ program kadai4
     ! run
     eps = 1.0E-6
     print '("基準値: ", e7.1)', eps
-    r_newton = newton(eps)
+    r_newton(:) = newton(eps)
     print '("回数: ",I2 ," 近似値: " f11.9)', nint(r_newton(1)), r_newton(2)
 
-    r_nibun = nibun(eps)
+    r_nibun(:) = nibun(eps)
     print '("回数: ",I2 ," 近似値: " f11.9)', nint(r_nibun(1)), r_nibun(2)
+
+    eps = 1.0E-3
+    print '("基準値: ", e7.1)', eps
+    r_newton(:) = newton(eps)
+    print '("回数: ",I2 ," 近似値: " f11.9)', nint(r_newton(1)), r_newton(2)
+
+    r_nibun(:) = nibun(eps)
+    print '("回数: ",I2 ," 近似値: " f11.9)', nint(r_nibun(1)), r_nibun(2)
+
 end program kadai4
