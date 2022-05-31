@@ -23,7 +23,7 @@ contains
         real, intent(in) :: eps
         real :: newton(2)
         ! tmp
-        real :: x = 1.5
+        real :: x = 4.0
         ! 比較用
         integer :: cnt = 0
         do
@@ -82,9 +82,7 @@ program kadai4
     print '("基準値: ", e7.1)', eps
     r_newton = newton(eps)
     print '("回数: ",I2 ," 近似値: " f11.9)', nint(r_newton(1)), r_newton(2)
-    print *, abs(f(r_newton(2)))
 
     r_nibun = nibun(eps)
     print '("回数: ",I2 ," 近似値: " f11.9)', nint(r_nibun(1)), r_nibun(2)
-    print *, abs(f(r_nibun(2)))
 end program kadai4
