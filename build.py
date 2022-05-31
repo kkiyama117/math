@@ -37,7 +37,7 @@ if __name__ == "__main__":
             with open(source_file, 'r') as f2:
                 for li in f2.readlines():
                     f.write(li)
-            f.write('------------------------------\n')
+            f.write('\n------------------------------\n')
             f.write('出力(pythonで取得)\n')
             f.write('------------------------------\n')
             time.sleep(1)
