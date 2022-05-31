@@ -7,9 +7,9 @@ import time
 if __name__ == "__main__":
     folderPath = "build"
     run_out_file = 'results/kadai_run.txt'
-    output_file = 'results/3/kadai.txt'
-    source_file = 'src/kadai3.f90'
-    run_file = './build/bin/kadai3'
+    output_file = 'results/4/kadai.txt'
+    source_file = 'src/kadai4.f90'
+    run_file = './build/bin/kadai4'
 
     # subprocess.call(['./build.zsh'])
     print("remove old files")
