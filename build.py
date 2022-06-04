@@ -50,6 +50,8 @@ if __name__ == "__main__":
     print("write...")
     if run_out_file.is_file():
         with open(output_file, 'w') as f:
+            f.write('他課題のソースやMakefile,ビルド用プログラム等の実行環境については https://github.com/kkiyama117/math をご確認下さい.\n')
+            f.write('------------------------------\n')
             f.write('ソース\n')
             f.write('------------------------------\n')
             with open(source_file, 'r') as f2:
@@ -63,6 +65,7 @@ if __name__ == "__main__":
                 for li in f2.readlines():
                     f.write(li)
             f.write('\n------------------------------\n')
+            f.write('他課題のソースやMakefile,ビルド用プログラム等の実行環境については https://github.com/kkiyama117/math をご確認下さい.\n')
         with open(run_out_file, 'r') as fin:
             print(fin.read())
     else:
