@@ -9,11 +9,9 @@ contains
     real function f(x)
         real, intent(in) :: x
         f = 4 / (1 + x**2)
-        !        f = sin(x) ** 2
     end function
 end module
 
-! 2x^3-3x^2-12x+5
 program kadai5
     ! module
     use functions_module
