@@ -5,41 +5,54 @@ module functions_module
 contains
     ! functions
     ! 式関数は現代ではdeprecated
-    ! 被積分関数
-    real function f(x)
-        real, intent(in) :: x
-        f = 4 / (1 + x**2)
+    ! double precision なのは real(4) だと,n=20の時に精度が一番高くなってしまったため.
+    double precision function f(x)
+        double precision, intent(in) :: x
+        ! 被積分関数
+        f = 4.0 / (1.0 + x**2.0)
+        ! こっち(0<x<2.0)はrealでも精度が上がった
+        ! f = (4 - x**2)**0.5
     end function
 end module
 
 program kadai5
     ! module
     use functions_module
+    ! 正確な円周率と比較するためにisoのモジュールを引っ張り出す
+    use, intrinsic :: iso_fortran_env
 
     implicit none
-    ! function
+    ! functions
+
     ! tmp
-    real :: a = 0.0, b = 1.0;
+    ! 正確な円周率
+    real(real64), parameter :: PI = 4.0_real64 * atan(1.0_real64);
+    double precision:: a = 0.0, b = 1.0;
+    integer :: i;
+
     ! run
-    print *, simpton(f, a, b, 10)
-    print *, simpton(f, a, b, 20)
-    print *, simpton(f, a, b, 30)
-    print *, simpton(f, a, b, 40)
-    print *, simpton(f, a, b, 50)
+    do i = 1, 5
+        print *, simpton(f, a, b, i * 10), "(x=", i * 10, ")"
+        ! 円周率との誤差
+        print *, "誤差:", simpton(f, a, b, i * 10) - PI
+    end do
+    ! あまり精度が上がらないのでさらに増やして比較
+    print *, simpton(f, a, b, 1000), "(x=", 1000, ")"
+    print *, "誤差:", simpton(f, a, b, 1000) - PI
 
 contains
-    real function simpton(f, a, b, n)
+    double precision function simpton(f, a, b, n)
         ! 仮引数の型(関数)
         interface
-            real function f(x)
-                real, intent(in) :: x
+            double precision function f(x)
+                double precision, intent(in) :: x
             end function
         end interface
 
         ! tmp
-        real :: a, b ;
-        real :: h
-        real :: tmp;
+        double precision :: a, b ;
+        double precision:: h
+        double precision :: tmp;
         integer :: n, i ! n=2m
 
         ! run
@@ -50,16 +63,16 @@ contains
             if (mod(i, 2)==0) then
                 ! f(y_n)=f(y_2k)
                 ! 偶数
-                tmp = tmp + 2 * f(a + real(i) * h)
+                tmp = tmp + 2.0 * f(a + real(i) * h)
             else
                 ! 奇数
                 ! f(y_n)=f(y_2k-1)
-                tmp = tmp + 4 * f(a + real(i) * h)
+                tmp = tmp + 4.0 * f(a + real(i) * h)
             end if
         end do
         ! f(y_n)=f(y_2m)=f(b)
         tmp = tmp + f(b)
-        simpton = tmp * h / 3
+        simpton = tmp * h / 3.0
     end function simpton
 
 end program kadai5
