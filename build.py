@@ -1,15 +1,20 @@
 import subprocess
 
-import itertools
+import sys
 import os.path
 import time
 
 if __name__ == "__main__":
+    args = sys.argv
+    if len(args) >= 2 and args[1] is not None:
+        num = int(args[1])
+    else:
+        num = int(input("input num"))
     folderPath = "build"
     run_out_file = 'results/kadai_run.txt'
-    output_file = 'results/4/kadai.txt'
-    source_file = 'src/kadai4.f90'
-    run_file = './build/bin/kadai4'
+    output_file = f"results/{num}/kadai.txt"
+    source_file = f"src/kadai{num}.f90"
+    run_file = f"./build/bin/kadai{num}"
 
     # subprocess.call(['./build.zsh'])
     print("remove old files")
@@ -45,6 +50,8 @@ if __name__ == "__main__":
                 for li in f2.readlines():
                     f.write(li)
             f.write('\n------------------------------\n')
+        with open(run_out_file, 'r') as fin:
+            print(fin.read())
     else:
         raise ValueError("%s isn't a file!" % run_out_file)
     print("end")
