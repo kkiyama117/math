@@ -1,7 +1,10 @@
+import os
 import subprocess
 
 import sys
-import os.path
+import pathlib
+from pathlib import Path
+import shutil
 import time
 
 if __name__ == "__main__":
@@ -10,32 +13,42 @@ if __name__ == "__main__":
         num = int(args[1])
     else:
         num = int(input("input num"))
-    folderPath = "build"
-    run_out_file = 'results/kadai_run.txt'
-    output_file = f"results/{num}/kadai.txt"
-    source_file = f"src/kadai{num}.f90"
-    run_file = f"./build/bin/kadai{num}"
 
-    # subprocess.call(['./build.zsh'])
+    build_dir = Path('build')
+    results_dir = Path('results')
+    output_dir = results_dir / f"{num}"
+    source_file = Path(f"src/kadai{num}.f90")
+    run_file = build_dir / "bin" / f"kadai{num}"
+    run_out_file = results_dir / 'kadai_run.txt'
+    output_file = output_dir / 'kadai.txt'
+
     print("remove old files")
-    subprocess.call(['rm', '-rf', folderPath])
-    subprocess.call(['rm', '-f', run_out_file])
-    subprocess.call(['rm', '-f', output_file])
-    while os.path.exists(folderPath):
-        time.sleep(1)
-    print("building...")
-    subprocess.call(['mkdir', '-p', folderPath])
-    subprocess.call(['cmake', '..', '-DCMAKE_BUILD_TYPE=Release'], cwd=folderPath)
-    subprocess.call(['make'], cwd=folderPath)
-    print("running...")
-    subprocess.call(['./bin/main'], cwd=folderPath)
+    # warning!
+    try:
+        if build_dir.exists():
+            shutil.rmtree(build_dir)
+        if run_out_file.exists():
+            os.remove(run_out_file)
+        if output_file.exists():
+            os.remove(output_file)
+        build_dir.mkdir()
+        if not output_dir.exists():
+            output_dir.mkdir()
+    except FileNotFoundError as e:
+        print(e)
 
-    while not os.path.exists(run_file):
+    print("building...")
+    subprocess.call(['cmake', '..', '-DCMAKE_BUILD_TYPE=Release'], cwd=build_dir)
+    subprocess.call(['make'], cwd=build_dir)
+    print("running...")
+    subprocess.call(['./bin/main'], cwd=build_dir)
+
+    while not run_file.exists():
         time.sleep(1)
     with open(run_out_file, 'w') as f:
         subprocess.Popen([run_file], stdout=f, stderr=f)
     print("write...")
-    if os.path.isfile(run_out_file):
+    if run_out_file.is_file():
         with open(output_file, 'w') as f:
             f.write('ソース\n')
             f.write('------------------------------\n')
