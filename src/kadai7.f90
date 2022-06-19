@@ -21,6 +21,7 @@ program kadai7
             end if
         end do
     end do
+    print *, "元の行列"
     do l = 1, n
         write(*, '(16(f8.1,X))') (A(l, k), k = 1, n)
     end do
