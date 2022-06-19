@@ -101,11 +101,11 @@ program kadai7
                 print 400, l, A(l, l)
                 400 format('固有値', i2, ')=', f8.2)
             end do
+            print *, "固有ベクトル"
             do l = 1, n
                 print 500, (X(l, k), k = 1, n)
                 500 format(1x, 10f8.2)
             end do
-            print *, "固有ベクトル"
             stop
         end if
     end do
