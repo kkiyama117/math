@@ -1,15 +1,14 @@
-! compute eigenvalue & eigenvector by Jabobi method
-program Jacobi_method
-    ! state variables
+! Created by kiyama on 6/19/22.
+program kadai7
     implicit none
+    ! tmp
     integer :: i, k, l, n
     integer :: p, q, fg
     real(8) :: bg, ss, tt, vv, sai, sg, csai
     real(8) :: bpi, bqi, bpp, bqq, xpq, xqp
     real(8) :: eps
     real(8), allocatable :: A(:, :), X(:, :)
-    ! n is the degree of matrix (You should check.)
-    parameter (n = 5)
+    parameter (n = 4)
     allocate(A(n, n))
     allocate(X(n, n))
     ! read data
@@ -23,7 +22,7 @@ program Jacobi_method
         end do
     end do
     do l = 1, n
-        write(*, '(16(E10.3,X))') (A(l, k), k = 1, n)
+        write(*, '(16(f8.1,X))') (A(l, k), k = 1, n)
     end do
     ! judge if data is symmetric matrix
     do l = 1, n
@@ -31,18 +30,16 @@ program Jacobi_method
             if (A(l, k)==A(k, l)) then
             else
                 write(*, 200)
-                200 format('It is not symmetric matrix.')
+                200 format('正方行列ではない')
             end if
         end do
     end do
-    ! set initial value of matrix X
     do l = 1, n
         do k = 1, n
             X(l, k) = 0
         end do
         X(l, l) = 1
     end do
-    ! find maximum element of matrix A
     fg = 0
     bg = 0
     do k = 1, n - 1
@@ -54,7 +51,6 @@ program Jacobi_method
             end if
         end do
     end do
-    ! compute orthogonal matrix & diagonalize matrix A
     do i = 1, 1000
         if (bg>=eps) then
             fg = fg + 1
@@ -81,7 +77,6 @@ program Jacobi_method
             A(q, q) = bqq
             A(p, q) = 0
             A(q, p) = 0
-            ! compute eigenvector
             do l = 1, n
                 A(l, p) = A(p, l)
                 A(l, q) = A(q, l)
@@ -90,7 +85,6 @@ program Jacobi_method
                 X(l, p) = xpq
                 X(l, q) = xqp
             end do
-            ! find maximum element of matrix A
             bg = 0
             do k = 1, n - 1
                 do l = k + 1, n
@@ -101,33 +95,21 @@ program Jacobi_method
                     end if
                 end do
             end do
-            ! write result
         else
-            open(12, file = 'result.dat')
-            write(*, 300)
-            write(12, 300)
-            300 format(' 1.Eigenvalue')
+            print *, "固有値"
             do l = 1, n
-                write(*, 400) l, A(l, l)
-                write(12, 400) l, A(l, l)
-                400 format('lambda', i2, ')=', E12.4)
+                print 400, l, A(l, l)
+                400 format('固有値', i2, ')=', f8.2)
             end do
-            write(*, 500)
-            write(12, 500)
-            500 format(' 2.Eigenvector')
             do l = 1, n
-                write(*, 600) (X(l, k), k = 1, n)
-                write(12, 600) (X(l, k), k = 1, n)
-                600 format(1x, 10E12.4)
+                print 500, (X(l, k), k = 1, n)
+                500 format(1x, 10f8.2)
             end do
-            write(*, 700) fg
-            700 format('times:', i4)
-            close(12)
+            print *, "固有ベクトル"
             stop
         end if
     end do
-    ! finish
     deallocate(A)
     deallocate(X)
     stop
-end program Jacobi_method
+end program kadai7
