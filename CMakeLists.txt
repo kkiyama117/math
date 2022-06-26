@@ -52,7 +52,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
 
 # Add sub dir
-add_subdirectory(src)
+add_subdirectory(fortran)
+#add_subdirectory(src)
 #target_link_libraries(${PROJECT_NAME} src)
 
 # build executables

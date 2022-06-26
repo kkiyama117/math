@@ -16,8 +16,10 @@ if __name__ == "__main__":
 
     build_dir = Path('build')
     results_dir = Path('results')
+    source_dir = Path('fortran')
     output_dir = results_dir / f"{num}"
-    source_file = Path(f"src/kadai{num}.f90")
+
+    source_file = source_dir / f"kadai{num}.f90"
     run_file = build_dir / "bin" / f"kadai{num}"
     run_out_file = results_dir / 'kadai_run.txt'
     output_file = output_dir / 'kadai.txt'
@@ -41,7 +43,7 @@ if __name__ == "__main__":
     subprocess.call(['cmake', '..', '-DCMAKE_BUILD_TYPE=Release'], cwd=build_dir)
     subprocess.call(['make'], cwd=build_dir)
     print("running...")
-    subprocess.call(['./bin/main'], cwd=build_dir)
+    subprocess.call([str(run_file.absolute())], cwd=build_dir)
 
     while not run_file.exists():
         time.sleep(1)
