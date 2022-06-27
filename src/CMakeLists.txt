@@ -22,6 +22,7 @@ foreach (p ${PROGRAMS})
     get_filename_component(relativePath "${p}" NAME) # title
     message("building ${relativePath}")
     add_executable (${title} "${relativePath}")
+    target_link_libraries(${title} m)
     #    set(EXECUTABLES "${EXECUTABLES} ${title}")
 endforeach (p)
 
