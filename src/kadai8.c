@@ -137,6 +137,7 @@ double runge_2(double y_0, double dy_0, double x_0, double x_n, int n, double **
     return y;
 }
 
+// get d2y/dx2
 double f2(double x, double y, double p) {
     return -3. * p - 2. * y - 5. * cos(x);
 }
