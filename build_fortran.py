@@ -3,23 +3,50 @@ import subprocess
 
 import sys
 import pathlib
+from enum import Enum
 from pathlib import Path
 import shutil
 import time
 
+
+class ProgType(Enum):
+    F90 = 1
+    C = 2
+
+
 if __name__ == "__main__":
     args = sys.argv
-    if len(args) >= 2 and args[1] is not None:
-        num = int(args[1])
+    if len(args) >= 3:
+        if args[1] is not None:
+            num = int(args[1])
+        else:
+            num = int(args[1])
+        if args[2] is not None and args[2] == "C":
+            file_type = ProgType.C
+        else:
+            file_type = ProgType.F90
+    elif len(args) >= 2:
+        file_type = ProgType.F90
+        if args[1] is not None:
+            num = int(args[1])
+        else:
+            num = int(args[1])
     else:
         num = int(input("input num"))
+        file_type = ProgType.F90
+
+    if file_type is ProgType.C:
+        source_dir = Path('src')
+        file_type_suffix = "c"
+    else:
+        source_dir = Path('fortran')
+        file_type_suffix = "f90"
 
     build_dir = Path('build')
     results_dir = Path('results')
-    source_dir = Path('fortran')
     output_dir = results_dir / f"{num}"
 
-    source_file = source_dir / f"kadai{num}.f90"
+    source_file = source_dir / f"kadai{num}.{file_type_suffix}"
     run_file = build_dir / "bin" / f"kadai{num}"
     run_out_file = results_dir / 'kadai_run.txt'
     output_file = output_dir / 'kadai.txt'
