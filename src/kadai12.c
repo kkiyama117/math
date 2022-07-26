@@ -147,5 +147,6 @@ int main(int argc, char *args[]) {
     printf("Q2\n");
     printf("N2\n");
     printf("T= %lf\n", 1000.0 * q_2(a_n2));
+    printf("CO2\n");
     printf("T= %lf\n", 1000.0 * q_2(a_co2));
 }
