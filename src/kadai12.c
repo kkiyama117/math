@@ -68,8 +68,14 @@ void q_1(double data_matrix[2][18], double result[6]) {
     }
 }
 
-// 不定積分
+// 元のCp
 double q_2_dqdx(const double a[6], double x) {
+    return a[0] + a[1] * pow(x, 1.0) + a[2] * pow(x, 2.0) + a[3] * pow(x, 3.0) + a[4] * pow(x, 4.0) +
+           a[5] * pow(x, 5.0);
+}
+
+// 不定積分
+double q_2_inner(const double a[6], double x) {
     return a[0] * x + a[1] / 2.0 * pow(x, 2.0) + a[2] / 3.0 * pow(x, 3.0)
            + a[3] / 4.0 * pow(x, 4.0) + a[4] / 5.0 * pow(x, 5.0) + a[5] / 6.0 * pow(x, 6.0);
 }
@@ -77,8 +83,8 @@ double q_2_dqdx(const double a[6], double x) {
 // q=20kJ
 // よって q/1000 -20 =0(J) を解くことになる.
 double q_2_f(double a[6], double x) {
-    double f_03 = q_2_dqdx(a, 0.3);
-    return q_2_dqdx(a, x) - f_03;
+    double f_03 = q_2_inner(a, 0.3);
+    return q_2_inner(a, x) - f_03 - 20;
 }
 
 double q_2(double a[6]) {
@@ -140,6 +146,6 @@ int main(int argc, char *args[]) {
 
     printf("Q2\n");
     printf("N2\n");
-    printf("T= %lf\n", 1000.0* q_2(a_n2));
-    printf("T= %lf\n", 1000.0* q_2(a_co2));
+    printf("T= %lf\n", 1000.0 * q_2(a_n2));
+    printf("T= %lf\n", 1000.0 * q_2(a_co2));
 }
