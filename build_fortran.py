@@ -71,7 +71,7 @@ if __name__ == "__main__":
     subprocess.call(['make'], cwd=build_dir)
     print("running...")
 
-    time.sleep(5)
+    time.sleep(10)
     while not run_file.exists():
         time.sleep(1)
     with open(run_out_file, 'w') as f:
