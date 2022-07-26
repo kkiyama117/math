@@ -19,8 +19,6 @@ double real_df(double x);
 #define TRUE (!FALSE)
 #endif
 
-
-
 //double runge(double f_0, double x_0, double x_n, int n) {
 //    int i;
 //    double y, x, h, k, k1, k2, k3, k4;
