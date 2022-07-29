@@ -26,23 +26,13 @@ typedef struct {
 // 分割数n, f(x0)=f0
 Result q1(double t_0, double t_n, int n, double p_0, double q_0);
 
-//double runge(double t_0, double t_n, int n, BaseFunc df);
-double dp(double t, double y);
-
-double p_true(double t);
-
-double dq(double t, double y);
-
-double q_true(double t);
-
-
 int main(int argc, char *args[]) {
     double t_0 = 0.;
-    double t_n = 2.;
+    double t_n = 6.30;
     double p_0 = 0.;
     double q_0 = 1.;
 //    double eps = 0.00001;
-    int n = 20;
+    int n = 630;
     Result result = q1(t_0, t_n, n, p_0, q_0);
 
     printf("p=%f,q=%f\n", result.p, result.q);
@@ -53,7 +43,8 @@ int main(int argc, char *args[]) {
 
 Result q1(double t_0, double t_n, int n, double p_0, double q_0) {
     int i;
-    double p, q, t, h, H, k, k1, k2, k3, k4;
+    double p, q, t, h, H;
+//    double dp, dq;
     p = p_0;
     q = q_0;
     t = t_0;
@@ -63,10 +54,14 @@ Result q1(double t_0, double t_n, int n, double p_0, double q_0) {
     printf("t       p       q        H\n");
     printf("%5.5lf, %5.5lf, %5.5lf, %5.5lf\n", t, p, q, H);
     for (i = 0; i < n; i++) {
-//        k = (k1 + 2. * k2 + 2. * k3 + k4) / 6.;
         Result r;
-        r.p = p - h * q;
-        r.q = q + h * p;
+        // Euler法なら
+//        dp = -q;
+//        dq = p;
+//        r.p = p + h * dp;
+//        r.q = q + h * dq;
+        r.q = (1.0 - 0.5 * pow(h, 2.0) + (1 / 24) * pow(h, 4.0)) * q + (h - (1 / 6) * pow(h, 3.0)) * p;
+        r.p = (1.0 - 0.5 * pow(h, 2.0) + (1 / 24) * pow(h, 4.0)) * p - (h - (1 / 6) * pow(h, 3.0)) * q;
         t += h;
         r.H = 0.5 * (pow(r.p, 2.) + pow(r.q, 2.));
         printf("%5.5lf, %5.5lf, %5.5lf, %5.5lf\n", t, r.p, r.q, r.H);
@@ -76,26 +71,6 @@ Result q1(double t_0, double t_n, int n, double p_0, double q_0) {
     }
     Result r = {p, q, H};
     return r;
-}
-
-double f(double x, double y) {
-    return x * y;
-}
-
-double dp(double x, double y) {
-    return x * y;
-}
-
-double dq(double x, double y) {
-    return x * y;
-}
-
-double p_true(double x) {
-    return -sin(x);
-}
-
-double q_true(double x) {
-    return cos(x);
 }
 
 //
