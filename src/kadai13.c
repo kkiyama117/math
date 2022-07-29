@@ -17,50 +17,106 @@
 
 typedef double (*BaseFunc)(double, double);
 
+typedef struct {
+    double p;
+    double q;
+    double H;
+} Result;
+
 // 分割数n, f(x0)=f0
-double runge(double t_0, double t_n, int n, double y_0, BaseFunc f);
+Result q1(double t_0, double t_n, int n, double p_0, double q_0);
 
 //double runge(double t_0, double t_n, int n, BaseFunc df);
-double dp(double x, double y);
+double dp(double t, double y);
 
-double p(double x);
+double p_true(double t);
+
+double dq(double t, double y);
+
+double q_true(double t);
+
+
+int main(int argc, char *args[]) {
+    double t_0 = 0.;
+    double t_n = 2.;
+    double p_0 = 0.;
+    double q_0 = 1.;
+//    double eps = 0.00001;
+    int n = 20;
+    Result result = q1(t_0, t_n, n, p_0, q_0);
+
+    printf("p=%f,q=%f\n", result.p, result.q);
+
+    return 0;
+}
+
+
+Result q1(double t_0, double t_n, int n, double p_0, double q_0) {
+    int i;
+    double p, q, t, h, H, k, k1, k2, k3, k4;
+    p = p_0;
+    q = q_0;
+    t = t_0;
+    h = (t_n - t_0) / (double) n;
+
+    // 漸化式を計算
+    printf("t       p       q        H\n");
+    printf("%5.5lf, %5.5lf, %5.5lf, %5.5lf\n", t, p, q, H);
+    for (i = 0; i < n; i++) {
+//        k = (k1 + 2. * k2 + 2. * k3 + k4) / 6.;
+        Result r;
+        r.p = p - h * q;
+        r.q = q + h * p;
+        t += h;
+        r.H = 0.5 * (pow(r.p, 2.) + pow(r.q, 2.));
+        printf("%5.5lf, %5.5lf, %5.5lf, %5.5lf\n", t, r.p, r.q, r.H);
+        p = r.p;
+        q = r.q;
+        H = r.H;
+    }
+    Result r = {p, q, H};
+    return r;
+}
 
 double f(double x, double y) {
     return x * y;
 }
 
-double y_true(double x) {
-    return 4.0 * exp(x * x / 2.0);
+double dp(double x, double y) {
+    return x * y;
 }
 
-int main(int argc, char *args[]) {
-    double x = 0.;
-    double y = 4.;
-    double eps = 0.00001;
-    double result = runge(x, 3.0, 100, y, f);
-
-    printf("x=%f\n", result);
-    return 0;
+double dq(double x, double y) {
+    return x * y;
 }
 
-double runge(double t_0, double t_n, int n, double y_0, BaseFunc f) {
-    int i;
-    double y, t, h, k, k1, k2, k3, k4;
-    y = y_0;
-    t = t_0;
-    h = (t_n - t_0) / n;
-
-    // 漸化式を計算
-    printf("x       y       y_true\n");
-    for (i = 1; i <= n; i++) {
-        k1 = h * f(t, y);
-        k2 = h * f(t + h / 2., y + k1 / 2.);
-        k3 = h * f(t + h / 2., y + k2 / 2.);
-        k4 = h * f(t + h, y + k3);
-        k = (k1 + 2. * k2 + 2. * k3 + k4) / 6.;
-        y += k;
-        t += h;
-        printf("%5.5lf, %5.5lf, %5.5lf\n", t, y, y-y_true(t));
-    }
-    return y;
+double p_true(double x) {
+    return -sin(x);
 }
+
+double q_true(double x) {
+    return cos(x);
+}
+
+//
+//double runge(double t_0, double t_n, int n, double y_0, BaseFunc f) {
+//int i;
+//double y, t, h, k, k1, k2, k3, k4;
+//y = y_0;
+//t = t_0;
+//h = (t_n - t_0) / n;
+//
+//// 漸化式を計算
+//printf("x       y       y_true\n");
+//for (i = 1; i <= n; i++) {
+//k1 = h * f(t, y);
+//k2 = h * f(t + h / 2., y + k1 / 2.);
+//k3 = h * f(t + h / 2., y + k2 / 2.);
+//k4 = h * f(t + h, y + k3);
+//k = (k1 + 2. * k2 + 2. * k3 + k4) / 6.;
+//y += k;
+//t += h;
+//printf("%5.5lf, %5.5lf, %5.5lf\n", t, y, y - y_true(t));
+//}
+//return y;
+//}

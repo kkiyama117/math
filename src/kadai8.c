@@ -54,7 +54,7 @@ int main(int argc, char *args[]) {
 //    double base_y1 = runge_2(y_0, 10., 0., 1., n, ans);
 
     while (TRUE) {
-        dy = (dy_min + dy_max) / 2;
+        dy = (dy_min + dy_max) / 2.;
         // get y(x=1)
         y = runge_2(y_0, dy, 0., 1., n, ans);
         // 誤差以内
@@ -89,7 +89,7 @@ double runge_2(double y_0, double dy_0, double x_0, double x_n, int n, double **
     y = y_0;
     p = dy_0;
     x = x_0;
-    h = (x_n - x_0) / n;
+    h = (x_n - x_0) / (double )n;
 
     // 漸化式を計算
     for (i = 0; i < n; i++) {
