@@ -19,26 +19,6 @@ double real_df(double x);
 #define TRUE (!FALSE)
 #endif
 
-//double runge(double f_0, double x_0, double x_n, int n) {
-//    int i;
-//    double y, x, h, k, k1, k2, k3, k4;
-//    y = f_0;
-//    x = x_0;
-//    h = (x_n - x_0) / n;
-//
-//    // 漸化式を計算
-//    for (i = 1; i <= n; i++) {
-//        k1 = h * f(x, y);
-//        k2 = h * f(x + h / 2., y + k1 / 2.);
-//        k3 = h * f(x + h / 2., y + k2 / 2.);
-//        k4 = h * f(x + h, y + k3);
-//        k = (k1 + 2. * k2 + 2. * k3 + k4) / 6.;
-//        y += k;
-//        x += h;
-//    }
-//    return y;
-//}
-
 // df == p
 
 
