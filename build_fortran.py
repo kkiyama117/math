@@ -70,9 +70,9 @@ if __name__ == "__main__":
     subprocess.call(['cmake', '..', '-DCMAKE_BUILD_TYPE=Release'], cwd=build_dir)
     subprocess.call(['make'], cwd=build_dir)
     print("running...")
-
     time.sleep(10)
     while not run_file.exists():
+        print("waiting build...")
         time.sleep(1)
     with open(run_out_file, 'w') as f:
         subprocess.Popen([run_file], stdout=f, stderr=f)
